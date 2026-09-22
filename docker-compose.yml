@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=RecoveryLink
+      - APP_ENV=development
+      - DEBUG=True
+      - PORT=8000
+      - DATABASE_URL=sqlite:///./recoverylink.db
+      - AT_USERNAME=sandbox
+      - AT_API_KEY=${AT_API_KEY:-sandbox_key}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
